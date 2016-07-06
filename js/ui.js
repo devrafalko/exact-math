@@ -21,14 +21,14 @@ formValid = {
 	isValid: [],
 	myInterval: null,
 	intervalStep: 10,
-	isEventExist:false,
-	
 	initMe: function(){
 		var bValidMe = this.validMe.bind(this);
 		var bStyleMe = this.styleMe.bind(this);
 		var bBlockMe = this.blockMe.bind(this);
-		
 		var bScrollMe = this.scrollMe.bind(this);
+		var bRunMe = this.runMe.bind(this);
+		var bResetMe = this.resetMe.bind(this);
+		
 		this.cont = document.getElementById("calcTest");
 		this.runBut = document.getElementById("validRun");
 		this.runBut.value = this.butVals[0];
@@ -39,10 +39,10 @@ formValid = {
 		this.output2 = document.getElementById("validEquation2");
 		this.output1.addEventListener("scroll",bScrollMe);
 		this.output2.addEventListener("scroll",bScrollMe);
-		
+		this.runBut.addEventListener("click", bRunMe);
+		this.resBut.addEventListener("click", bResetMe);
 		
 		var input = this.cont.children;
-	
 		for(var i =0;i<this.cont.children.length;i++){
 				if(input[i].getAttribute("type")==="text"){
 					input[i].addEventListener("focus", bValidMe);
@@ -52,7 +52,6 @@ formValid = {
 					input[i].addEventListener("blur", bStyleMe);
 					input[i].addEventListener("blur", bBlockMe);
 					input[i].setAttribute("data-valid",i);
-					
 					this.inputNum++;
 					this.isValid.push(false);
 				}
@@ -61,34 +60,34 @@ formValid = {
 	validMe:function(event){
 		var bIsNumber = this.defMet.isNumber.bind(this);
 		var bMinMax = this.defMet.minMax.bind(this);
-		var setElement = Number(event.target.getAttribute("data-valid"));
+		var bBiggerThan = this.defMet.biggerThan.bind(this);
+		var bLowerThan = this.defMet.lowerThan.bind(this);
+		var elem = Number(event.target.getAttribute("data-valid"));
 		this.outMessage = "";
 		this.current = event.target;
-		switch(setElement){
+		switch(elem){
 			case 0:
-				bIsNumber("Enter the initial numerical value.");
+				bIsNumber("Enter the initial numerical value.",elem);
+				bLowerThan("Enter the value lower than final value.",elem);
 				break;
 			case 1:
-				bIsNumber("Enter the final numerical value.");
+				bIsNumber("Enter the final numerical value.",elem);
+				bBiggerThan("Enter the value higher than initial value.",elem);
 				break;
 			case 2:
-				bIsNumber("Enter the step numerical value.");
+				bIsNumber("Enter the step numerical value.",elem);
 				break;
 			case 3:
-				bIsNumber("Enter the number of counting combinations.");
-				bMinMax(2,10,"Enter the value between 2 and 10.");
+				bIsNumber("Enter the number of counting combinations.",elem);
+				bMinMax(2,10,"Enter the value between 2 and 10.",elem);
 				break;
 		}
-		
 		if(this.outMessage!==""){
 			this.inputLog.innerHTML = this.outMessage;
-			this.isValid[setElement] = false;
 			} else {
-				this.isValid[setElement] = true;
 				this.inputLog.innerHTML = "";
 				}
 		this.textArea.style.height = this.inputLog.scrollHeight + "px";
-		
 	},
 	styleMe: function(event){
 		if(this.outMessage!==""){
@@ -98,11 +97,8 @@ formValid = {
 			event.target.style = null;
 			event.target.style.color = "#1de9b6";
 		}
-		
 	},
 	blockMe: function(event){
-		var bRunMe = this.runMe.bind(this);
-		var bResetMe = this.resetMe.bind(this);
 		var checkBoxes = 0;
 		for(var i =0;i<this.inputNum;i++){
 			if(this.isValid[i]){
@@ -110,22 +106,16 @@ formValid = {
 			}
 		}
 		if(checkBoxes===this.inputNum){
-			if(this.isEventExist === false){
-				this.runBut.addEventListener("click", bRunMe);
-				this.resBut.addEventListener("click", bResetMe);
-				this.isEventExist = true;
-			}
+			this.runBut.removeAttribute("disabled");
+			this.resBut.removeAttribute("disabled");
 			this.runBut.style = this.unblockStyle;
 			this.resBut.style = this.unblockStyle;
-		} else {
-			if(this.isEventExist === true){
-				this.runBut.removeEventListener("click", bRunMe);
-				this.resBut.removeEventListener("click", bResetMe);
-				this.isEventExist = false;
-			}
-			this.runBut.style = null;
-			this.resBut.style = null;
-		}
+			} else {
+				this.runBut.setAttribute("disabled","disabled");
+				this.resBut.setAttribute("disabled","disabled");
+				this.runBut.style = null;
+				this.resBut.style = null;
+				}
 	},
 	runMe: function(event){
 		var bComputeMe = countMe.computeMe.bind(countMe,this);
@@ -163,7 +153,6 @@ formValid = {
 				this.cont.children[i].value=null;
 				this.isValid[i] = false;
 			}		
-		
 		this.blockMe();
 		countMe.countingState = false;
 	},
@@ -176,18 +165,51 @@ formValid = {
 		}
 	},
 	defMet: {
-		isNumber: function(returnVal){
+		isNumber: function(returnVal,elem){
 			if(this.current.value===""||isNaN(this.current.value)||this.current.value.match(/\s/g)){
-				
-						this.outMessage += returnVal + "<br/>";
-					}	
+				this.outMessage += returnVal + "<br/>";
+				this.isValid[elem] = false;
+				} else {
+					this.isValid[elem] = true;
+					}
 		},
-		minMax: function(min,max,returnVal){
+		minMax: function(min,max,returnVal,elem){
 			var mn = min===null? Number.NEGATIVE_INFINITY:min;
 			var mx = max===null? Number.POSITIVE_INFINITY:max;
 			if((this.current.value<mn||this.current.value>mx)||(isNaN(Number(this.current.value)))){
-						this.outMessage += returnVal + "<br/>";
-					}				
+				this.outMessage += returnVal + "<br/>";
+				this.isValid[elem] = false;
+				} else {
+					this.isValid[elem] = true;
+					}			
+		},
+		biggerThan: function(returnVal,elem){
+			if(Number(this.current.value)<=Number(this.cont.children[0].value)){
+				this.outMessage += returnVal + "<br/>";
+				this.cont.children[0].style = this.errorStyle;
+				this.cont.children[0].style.color = "#ef5350";
+				this.isValid[elem] = false;
+				this.isValid[0] = false;
+				} else {
+					this.cont.children[0].style = null;
+					this.cont.children[0].style.color = "#1de9b6";
+					this.isValid[elem] = true;
+					this.isValid[0] = true;
+					}
+		},
+		lowerThan: function(returnVal,elem){
+			if(Number(this.current.value)>=Number(this.cont.children[1].value)){
+				this.outMessage += returnVal + "<br/>";
+				this.cont.children[1].style = this.errorStyle;
+				this.cont.children[1].style.color = "#ef5350";
+				this.isValid[elem] = false;
+				this.isValid[1] = false;
+				} else {
+					this.cont.children[1].style = null;
+					this.cont.children[1].style.color = "#1de9b6";
+					this.isValid[elem] = true;
+					this.isValid[1] = true;
+					}
 		}
 	}
 };
@@ -238,7 +260,6 @@ var countMe = {
 		obj.output1.innerHTML = "";
 		obj.output2.innerHTML = "";
 		obj.textArea.style.height = obj.inputLog.scrollHeight + "px";
-		
 	},
 	computeMe:function(obj){
 		for(var i=0;i<this.combinations.length;i++){
@@ -252,17 +273,11 @@ var countMe = {
 				}
 			}
 		}
-
 		var argsExecution = this.combinations.toString();
 		var argsEquation = this.combinations.join(this.operator[this.operation]);
 		var execution = "smMath."+this.operatorId[this.operation]+"("+argsExecution+");";
-		console.log(execution);
-		var equation = argsEquation + " = ";
-		var regularResult = eval(argsEquation);
-		var smMathResult = eval(execution);
-		
-		var output1 = equation + regularResult;
-		var output2 = equation + smMathResult;
+		var output1 = argsEquation + " = " + eval(argsEquation);
+		var output2 = argsEquation + " = " + eval(execution);
 		if(output1!==output2){
 			this.errors++;
 		}
@@ -280,7 +295,6 @@ var countMe = {
 		obj.inputLog.innerHTML += "Operations done: "+this.counter+"<br/>";
 		obj.inputLog.innerHTML += "Errors detected: "+this.errors+"<br/>";
 		obj.textArea.style.height = obj.inputLog.scrollHeight + "px";
-		
 	},
 	finishMe: function(obj){
 		clearInterval(obj.myInterval);
