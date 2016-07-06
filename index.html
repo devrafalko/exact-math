@@ -1,0 +1,51 @@
+﻿<!DOCTYPE html>
+
+
+<html>
+<head>
+	<title>CSS - Szablon</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	
+	<link rel="Shortcut icon" href="icons/favicon.png" />
+	<link rel="stylesheet" type="text/css" href="styles/main.css"/>
+
+	<script src="js/smMath.js"></script>
+	<script src="js/ui.js"></script>
+
+</head>
+
+
+<body>
+	<div class="container">
+		<div id="calcTest">
+			<input type="text" placeholder="min"/>
+			<input type="text" placeholder="max"/>
+			<input type="text" placeholder="step"/>
+			<input type="text" placeholder="number"/>
+			<select>
+				<option value="0">Dzielenie</option>
+				<option value="1">Mnożenie</option>
+				<option value="2" selected="selected">Dodawanie</option>
+				<option value="3">Odejmowanie</option>
+			</select>
+			
+			<div id="outputCont"><p id="validOutput"></p></div>
+			<input type="button" value=" " id="validRun"/>
+			<input type="button" value="Reset" id="validReset"/>
+		</div>
+		<div>
+			
+			<h3>Floating point</h3>
+				<p id="validEquation1" class="outbox"></p>
+			<h3>Sm-Math</h3>
+				<p id="validEquation2" class="outbox"></p>
+		</div>
+
+	</div>
+
+
+	
+	
+</body>
+</html>
