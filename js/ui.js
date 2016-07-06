@@ -1,14 +1,14 @@
 /* global smMath */
 
 window.onload = function(){
-	formValid.initialization();
+	formValid.initMe();
 };
 
 formValid = {
 	cont: null,
 	inputNum: 0,
 	resBut: null,
-	rubBut: null,
+	runBut: null,
 	butVals: ["Run","Stop"],
 	textArea: null,
 	output1: null,
@@ -21,175 +21,178 @@ formValid = {
 	isValid: [],
 	myInterval: null,
 	intervalStep: 10,
+	isEventExist:false,
 	
-	initialization: function(){
+	initMe: function(){
+		var bValidMe = this.validMe.bind(this);
+		var bStyleMe = this.styleMe.bind(this);
+		var bBlockMe = this.blockMe.bind(this);
 		
-		formValid.cont = document.getElementById("calcTest");
-		formValid.rubBut = document.getElementById("validRun");
-		formValid.rubBut.value = formValid.butVals[0];
-		formValid.resBut = document.getElementById("validReset");
-		formValid.textArea = document.getElementById("outputCont");
-		formValid.inputLog = formValid.textArea.children[0];
-		formValid.output1 = document.getElementById("validEquation1");
-		formValid.output2 = document.getElementById("validEquation2");
-		formValid.output1.addEventListener("scroll",formValid.scrolluj);
-		formValid.output2.addEventListener("scroll",formValid.scrolluj);
+		var bScrollMe = this.scrollMe.bind(this);
+		this.cont = document.getElementById("calcTest");
+		this.runBut = document.getElementById("validRun");
+		this.runBut.value = this.butVals[0];
+		this.resBut = document.getElementById("validReset");
+		this.textArea = document.getElementById("outputCont");
+		this.inputLog = this.textArea.children[0];
+		this.output1 = document.getElementById("validEquation1");
+		this.output2 = document.getElementById("validEquation2");
+		this.output1.addEventListener("scroll",bScrollMe);
+		this.output2.addEventListener("scroll",bScrollMe);
 		
-		var input = formValid.cont.children;
+		
+		var input = this.cont.children;
 	
-		for(var i =0;i<formValid.cont.children.length;i++){
+		for(var i =0;i<this.cont.children.length;i++){
 				if(input[i].getAttribute("type")==="text"){
-					input[i].addEventListener("focus", formValid.walidacja);
-					input[i].addEventListener("input", formValid.walidacja);
-					input[i].addEventListener("input", formValid.stylowanie);
-					input[i].addEventListener("input", formValid.blokada);
-					input[i].addEventListener("blur", formValid.stylowanie);
-					input[i].addEventListener("blur", formValid.blokada);
+					input[i].addEventListener("focus", bValidMe);
+					input[i].addEventListener("input", bValidMe);
+					input[i].addEventListener("input", bStyleMe);
+					input[i].addEventListener("input", bBlockMe);
+					input[i].addEventListener("blur", bStyleMe);
+					input[i].addEventListener("blur", bBlockMe);
 					input[i].setAttribute("data-valid",i);
 					
-					formValid.inputNum++;
-					formValid.isValid.push(false);
+					this.inputNum++;
+					this.isValid.push(false);
 				}
 			}
 	},
-	walidacja:function(event){
-		var setElement = Number(this.getAttribute("data-valid"));
-		formValid.outMessage = "";
-		formValid.current = this;
-		
+	validMe:function(event){
+		var bIsNumber = this.defMet.isNumber.bind(this);
+		var bMinMax = this.defMet.minMax.bind(this);
+		var setElement = Number(event.target.getAttribute("data-valid"));
+		this.outMessage = "";
+		this.current = event.target;
 		switch(setElement){
 			case 0:
-				formValid.defMet.isNumber("Wprowadź liczbową wartość początkową.");
+				bIsNumber("Enter the initial numerical value.");
 				break;
 			case 1:
-				formValid.defMet.isNumber("Wprowadź liczbową wartość końcową.");
+				bIsNumber("Enter the final numerical value.");
 				break;
 			case 2:
-				formValid.defMet.isNumber("Wprowadź liczbową wartość przeskoku.");
+				bIsNumber("Enter the step numerical value.");
 				break;
 			case 3:
-				formValid.defMet.isNumber("Wprowadź liczbę kombinacji.");
-				formValid.defMet.minMax(2,10,"Wprowadź wartość pomiędzy 2 a 10.");
+				bIsNumber("Enter the number of counting combinations.");
+				bMinMax(2,10,"Enter the value between 2 and 10.");
 				break;
 		}
 		
-		if(formValid.outMessage!==""){
-			formValid.inputLog.innerHTML = formValid.outMessage;
-			formValid.isValid[setElement] = false;
-			
-			
-			
-		} else {
-			formValid.isValid[setElement] = true;
-			formValid.inputLog.innerHTML = "";
-			
-
-		}
-			formValid.textArea.style.height = formValid.inputLog.scrollHeight + "px";
+		if(this.outMessage!==""){
+			this.inputLog.innerHTML = this.outMessage;
+			this.isValid[setElement] = false;
+			} else {
+				this.isValid[setElement] = true;
+				this.inputLog.innerHTML = "";
+				}
+		this.textArea.style.height = this.inputLog.scrollHeight + "px";
 		
 	},
-	stylowanie: function(event){
-		if(formValid.outMessage!==""){
-			this.style = formValid.errorStyle;
-			this.style.color = "#ef5350";
+	styleMe: function(event){
+		if(this.outMessage!==""){
+			event.target.style = this.errorStyle;
+			event.target.style.color = "#ef5350";
 		} else {
-			this.style = null;
-			this.style.color = "#1de9b6";
+			event.target.style = null;
+			event.target.style.color = "#1de9b6";
 		}
 		
 	},
-	blokada: function(event){
+	blockMe: function(event){
+		var bRunMe = this.runMe.bind(this);
+		var bResetMe = this.resetMe.bind(this);
 		var checkBoxes = 0;
-		for(var i =0;i<formValid.inputNum;i++){
-			if(formValid.isValid[i]){
+		for(var i =0;i<this.inputNum;i++){
+			if(this.isValid[i]){
 				checkBoxes++;
 			}
 		}
-		if(checkBoxes===formValid.inputNum){
-			formValid.rubBut.addEventListener("click", formValid.uruchom);
-			formValid.resBut.addEventListener("click", formValid.resetuj);
-			formValid.rubBut.style = formValid.unblockStyle;
-			formValid.resBut.style = formValid.unblockStyle;
+		if(checkBoxes===this.inputNum){
+			if(this.isEventExist === false){
+				this.runBut.addEventListener("click", bRunMe);
+				this.resBut.addEventListener("click", bResetMe);
+				this.isEventExist = true;
+			}
+			this.runBut.style = this.unblockStyle;
+			this.resBut.style = this.unblockStyle;
 		} else {
-			formValid.rubBut.removeEventListener("click", formValid.uruchom);
-			formValid.resBut.removeEventListener("click", formValid.resetuj);
-			formValid.rubBut.style = null;
-			formValid.resBut.style = null;
+			if(this.isEventExist === true){
+				this.runBut.removeEventListener("click", bRunMe);
+				this.resBut.removeEventListener("click", bResetMe);
+				this.isEventExist = false;
+			}
+			this.runBut.style = null;
+			this.resBut.style = null;
 		}
 	},
-	uruchom: function(event){
-		if(formValid.buttonState){
-			formValid.buttonState = false;
-			formValid.rubBut.value = formValid.butVals[1];
-			formValid.myInterval = setInterval(licz.obliczaj,formValid.intervalStep);
-				for(var i =0;i<formValid.inputNum;i++){
-					formValid.cont.children[i].setAttribute("readonly","readonly");
+	runMe: function(event){
+		var bComputeMe = countMe.computeMe.bind(countMe,this);
+		if(this.buttonState){
+			this.buttonState = false;
+			this.runBut.value = this.butVals[1];
+			this.myInterval = window.setInterval(bComputeMe,this.intervalStep);
+				for(var i =0;i<this.inputNum;i++){
+					this.cont.children[i].setAttribute("readonly","readonly");
 				}
-				if(!licz.countingState){
-					var arg = formValid.cont.children;
-					licz.countingState = true;
-					licz.inicjuj(arg[0],arg[1],arg[2],arg[3],arg[4]);
+				if(!countMe.countingState){
+					var arg = this.cont.children;
+					countMe.countingState = true;
+					countMe.initMe([arg[0],arg[1],arg[2],arg[3],arg[4]],this);
 				}
 		} else {
-			formValid.buttonState = true;
-			formValid.rubBut.value = formValid.butVals[0];
-			clearInterval(formValid.myInterval);
-				for(var i =0;i<formValid.inputNum;i++){
-					formValid.cont.children[i].removeAttribute("readonly");
+			this.buttonState = true;
+			this.runBut.value = this.butVals[0];
+			clearInterval(this.myInterval);
+				for(var i =0;i<this.inputNum;i++){
+					this.cont.children[i].removeAttribute("readonly");
 				}
 		}		
 	},
-	resetuj: function(event){
-		clearInterval(formValid.myInterval);
-		formValid.inputLog.innerHTML = "";
-		formValid.textArea.style.height = formValid.inputLog.scrollHeight + "px";
-		formValid.output1.innerHTML = "";
-		formValid.output2.innerHTML = "";
-		formValid.buttonState = false;
-		formValid.uruchom();
+	resetMe: function(event){
+		clearInterval(this.myInterval);
+		this.inputLog.innerHTML = "";
+		this.textArea.style.height = this.inputLog.scrollHeight + "px";
+		this.output1.innerHTML = "";
+		this.output2.innerHTML = "";
+		this.buttonState = false;
+		this.runMe();
 		
-			for(var i =0;i<formValid.inputNum;i++){
-				formValid.cont.children[i].value=null;
-				formValid.isValid[i] = false;
+			for(var i =0;i<this.inputNum;i++){
+				this.cont.children[i].value=null;
+				this.isValid[i] = false;
 			}		
 		
-		formValid.blokada();
-		licz.countingState = false;
-
-
+		this.blockMe();
+		countMe.countingState = false;
 	},
-	scrolluj: function(event){
-		if(this===formValid.output1){
-			formValid.output2.scrollTop = formValid.output1.scrollTop;
+	scrollMe: function(event){
+		if(event.target===formValid.output1){
+			this.output2.scrollTop = this.output1.scrollTop;
 		}
-		if(this===formValid.output2){
-			formValid.output1.scrollTop = formValid.output2.scrollTop;
+		if(event.target===formValid.output2){
+			this.output1.scrollTop = this.output2.scrollTop;
 		}
-		
-		
 	},
 	defMet: {
 		isNumber: function(returnVal){
-			if(formValid.current.value===""||isNaN(formValid.current.value)||formValid.current.value.match(/\s/g)){
+			if(this.current.value===""||isNaN(this.current.value)||this.current.value.match(/\s/g)){
 				
-						formValid.outMessage += returnVal + "<br/>";
+						this.outMessage += returnVal + "<br/>";
 					}	
 		},
 		minMax: function(min,max,returnVal){
-			var min = min===null? -Infinity:min;
-			var max = max===null? Infinity:max;
-			if((formValid.current.value<min||formValid.current.value>max)||(isNaN(Number(formValid.current.value)))){
-						formValid.outMessage += returnVal + "<br/>";
+			var mn = min===null? Number.NEGATIVE_INFINITY:min;
+			var mx = max===null? Number.POSITIVE_INFINITY:max;
+			if((this.current.value<mn||this.current.value>mx)||(isNaN(Number(this.current.value)))){
+						this.outMessage += returnVal + "<br/>";
 					}				
 		}
-
-		
 	}
 };
 
-
-
-var licz = {
+var countMe = {
 	countingState: false,
 	min: null,
 	max: null,
@@ -205,55 +208,55 @@ var licz = {
 	counter: 0,
 	proc: 0,
 	
-	inicjuj:function(min,max,step,num,op){
-		licz.min = Number(min.value);
-		licz.max = Number(max.value);
-		licz.step = Number(step.value);
-		licz.number = Number(num.value);
-		licz.operation = op.value;
-		licz.mainCounter = 0;
-		licz.combinations = [];
-		licz.errors = 0;
-		licz.counter = 0;
-		licz.proc = 0;
+	initMe:function(vals,obj){
+		this.min = Number(vals[0].value);
+		this.max = Number(vals[1].value);
+		this.step = Number(vals[2].value);
+		this.number = Number(vals[3].value);
+		this.operation = vals[4].value;
+		this.mainCounter = 0;
+		this.combinations = [];
+		this.errors = 0;
+		this.counter = 0;
+		this.proc = 0;
 		
-		for(var i=0;i<licz.number;i++){
-			licz.combinations.push(licz.min);
+		for(var i=0;i<this.number;i++){
+			this.combinations.push(this.min);
 		}
 		
-		var valueRange = Math.abs(licz.max-licz.min);
-		var stepCounter = Math.floor(smMath.div(valueRange,licz.step))+1;
+		var valueRange = Math.abs(this.max-this.min);
+		var stepCounter = Math.floor(smMath.div(valueRange,this.step))+1;
 		var combinCount = stepCounter;
 		
-			for(var i=0;i<licz.number-1;i++){
-				combinCount *= stepCounter;
-			};
+		for(var i=0;i<this.number-1;i++){
+			combinCount *= stepCounter;
+		};
 		
-		licz.combinationNumber = combinCount;
+		this.combinationNumber = combinCount;
 		
-		formValid.inputLog.innerHTML = "";
-		formValid.output1.innerHTML = "";
-		formValid.output2.innerHTML = "";
-		formValid.textArea.style.height = formValid.inputLog.scrollHeight + "px";
+		obj.inputLog.innerHTML = "";
+		obj.output1.innerHTML = "";
+		obj.output2.innerHTML = "";
+		obj.textArea.style.height = obj.inputLog.scrollHeight + "px";
 		
 	},
-	obliczaj:function(){
-
-		for(var i=0;i<licz.combinations.length;i++){
-			if(licz.combinations[i]>licz.max){
-				licz.combinations[i] = licz.min;
-				if(i+1<licz.combinations.length){
-					licz.combinations[i+1] = smMath.add(licz.combinations[i+1],licz.step);
+	computeMe:function(obj){
+		for(var i=0;i<this.combinations.length;i++){
+			if(this.combinations[i]>this.max){
+				this.combinations[i] = this.min;
+				if(i+1<this.combinations.length){
+					this.combinations[i+1] = smMath.add(this.combinations[i+1],this.step);
 				} else {
-					licz.zakoncz();
+					this.finishMe(obj);
 					return;
 				}
 			}
 		}
 
-		var argsExecution = licz.combinations.toString();
-		var argsEquation = licz.combinations.join(licz.operator[licz.operation]);
-		var execution = "smMath."+licz.operatorId[licz.operation]+"("+argsExecution+");";
+		var argsExecution = this.combinations.toString();
+		var argsEquation = this.combinations.join(this.operator[this.operation]);
+		var execution = "smMath."+this.operatorId[this.operation]+"("+argsExecution+");";
+		console.log(execution);
 		var equation = argsEquation + " = ";
 		var regularResult = eval(argsEquation);
 		var smMathResult = eval(execution);
@@ -261,33 +264,29 @@ var licz = {
 		var output1 = equation + regularResult;
 		var output2 = equation + smMathResult;
 		if(output1!==output2){
-			licz.errors++;
+			this.errors++;
 		}
-		var inner1 = formValid.output1.innerHTML;
-		var inner2 = formValid.output2.innerHTML;
+		var inner1 = obj.output1.innerHTML;
+		var inner2 = obj.output2.innerHTML;
 
-		formValid.output1.innerHTML = output1+"<br/>"+inner1;
-		formValid.output2.innerHTML = output2+"<br/>"+inner2;
+		obj.output1.innerHTML = output1+"<br/>"+inner1;
+		obj.output2.innerHTML = output2+"<br/>"+inner2;
 		
-		licz.combinations[0] = smMath.add(licz.combinations[0],licz.step);
-		licz.counter++;
-		licz.proc = Number(((smMath.div(licz.counter,licz.combinationNumber))*100).toFixed()) + "%";
+		this.combinations[0] = smMath.add(this.combinations[0],this.step);
+		this.counter++;
+		this.proc = Number(((smMath.div(this.counter,this.combinationNumber))*100).toFixed()) + "%";
 		
-		
-		formValid.inputLog.innerHTML = "Wykonałem: "+licz.proc+"<br/>";
-		formValid.inputLog.innerHTML += "Wykonałem operacji: "+licz.counter+"<br/>";
-		formValid.inputLog.innerHTML += "Wykryłem błędów: "+licz.errors+"<br/>";
-		formValid.textArea.style.height = formValid.inputLog.scrollHeight + "px";
+		obj.inputLog.innerHTML = "Total: "+this.proc+"<br/>";
+		obj.inputLog.innerHTML += "Operations done: "+this.counter+"<br/>";
+		obj.inputLog.innerHTML += "Errors detected: "+this.errors+"<br/>";
+		obj.textArea.style.height = obj.inputLog.scrollHeight + "px";
 		
 	},
-	zakoncz: function(){
-		clearInterval(formValid.myInterval);
-		formValid.buttonState = false;
-		formValid.uruchom();
-		formValid.blokada();
-		licz.countingState = false;
+	finishMe: function(obj){
+		clearInterval(obj.myInterval);
+		obj.buttonState = false;
+		obj.runMe();
+		obj.blockMe();
+		this.countingState = false;
 	}
 };
-
-
-
