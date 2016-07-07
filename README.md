@@ -11,6 +11,7 @@
 
 ##### How does **smMath** work?
 All numbers in JavaScript are stored as 64-bits Floating point numbers. JavaScript has difficulties with precise floating point values.
+
 |Code|Result|
 |:---:|:---:|
 |var result = 0.1 + 0.2;|0.30000000000000004|
