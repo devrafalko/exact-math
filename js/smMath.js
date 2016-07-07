@@ -75,6 +75,7 @@ var smMathFunc = {
 		return Math.min.apply(null,commaAr);
 	},
 	validMe: function(args){
+		if(args.length<2) throw "Set at least two numerical values.";
 		for(var i in args){
 			args[i] = parseFloat(args[i]);
 			if(typeof args[i] !== "number" || isNaN(args[i])) throw "Every smMath argument must be of type number.";

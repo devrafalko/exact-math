@@ -68,11 +68,11 @@ formValid = {
 		switch(elem){
 			case 0:
 				bIsNumber("Enter the initial numerical value.",elem);
-				bLowerThan("Enter the value lower than final value.",elem);
+				bLowerThan("Enter the value lower than max value.",elem);
 				break;
 			case 1:
 				bIsNumber("Enter the final numerical value.",elem);
-				bBiggerThan("Enter the value higher than initial value.",elem);
+				bBiggerThan("Enter the value higher than min value.",elem);
 				break;
 			case 2:
 				bIsNumber("Enter the step numerical value.",elem);
@@ -148,7 +148,6 @@ formValid = {
 		this.output2.innerHTML = "";
 		this.buttonState = false;
 		this.runMe();
-		
 			for(var i =0;i<this.inputNum;i++){
 				this.cont.children[i].value=null;
 				this.isValid[i] = false;
