@@ -4,7 +4,7 @@
 3. [Methods](#methods)
 4. [Syntax](#syntax)
 5. [Implementation](#implementation)
-6. [License](#License)
+6. [License](#license)
 
 
 # Description
