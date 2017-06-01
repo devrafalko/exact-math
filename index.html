@@ -2,17 +2,20 @@
 
 <html>
 <head>
-	<title>smMath</title>
+	<title>exact-math</title>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<link rel="Shortcut icon" href="icons/favicon.png" />
-	<link rel="stylesheet" href="styles/main.css"/>
-	<script src="js/smMath.js"></script>
-	<script src="js/ui.js"></script>
+	<link rel="Shortcut icon" href="samples/favicon.png" />
+	<link rel="stylesheet" href="samples/normalize.css"/>
+	<link rel="stylesheet" href="samples/main.css"/>
+	<script src="lib/exact-math.js"></script>
+	<script src="samples/ui.js"></script>
 </head>
 <body>
-	<div class="container">
-		<div id="calcTest">
+	<div id="bodyContainer">
+		
+	<div id="container">
+		<div id="panel">
 			<input type="text" placeholder="min"/>
 			<input type="text" placeholder="max"/>
 			<input type="text" placeholder="step"/>
@@ -23,17 +26,21 @@
 				<option value="2" selected="selected">Addition</option>
 				<option value="3">Subtraction</option>
 			</select>
-			
-			<div id="outputCont"><p id="validOutput"></p></div>
+			<div id="console">
+				<h3>log</h3>
+				<div id="outputCont"><p id="logMessage"></p></div>
+			</div>
 			<input type="button" value=" " id="validRun" disabled/>
 			<input type="button" value="Reset" id="validReset" disabled/>
 		</div>
-		<div>
+		<div id="results">
 			<h3>JS arithmetic</h3>
 			<p id="validEquation1" class="outbox"></p>
-			<h3>smMath arithmetic</h3>
+			<h3>exact-math arithmetic</h3>
 			<p id="validEquation2" class="outbox"></p>
 		</div>
+	</div>
+
 	</div>
 </body>
 </html>
