@@ -1,0 +1,172 @@
+@import url('https://fonts.googleapis.com/css?family=Quicksand');
+@import 'responsive-media-style-creator';
+
+$blue-A: rgb(2,98,172);
+$blue-B: rgb(109,188,244);
+$blue-C: rgb(188,204,229);
+$blue-D: rgb(242,247,251);
+
+$font-blue-A: rgb(53,141,206);
+$font-blue-B: rgb(65,159,223);
+$font-blue-C: rgb(192,226,250);
+
+$border-blue-A: rgb(51,170,255);
+$border-blue-B: rgb(65,159,223);
+$border-blue-C: rgb(158,212,247);
+
+$font-grey-A: rgb(160, 160, 160);
+
+@mixin placeholder($color: $font-blue-C, $family: 'Quicksand') {
+	color: $color;
+	font-family: $family;
+}
+
+:-ms-input-placeholder{@include placeholder;};
+::placeholder{@include placeholder;};
+::-webkit-input-placeholder{@include placeholder;};
+::-ms-input-placeholder{@include placeholder;}
+:-moz-placeholder{@include placeholder;}
+::-moz-placeholder{@include placeholder;}
+
+* {
+	box-sizing: border-box;
+	outline: none;
+	margin: 0px;
+	padding: 0px;
+	font-size: 16px;
+	font-family: 'Quicksand', sans-serif;
+}
+
+body {
+	height: 100vh;
+	overflow: hidden;
+	background: linear-gradient(to top, $blue-A, $blue-B);
+}
+
+#box-body {
+	width: 100%;
+	height: 100%;
+	padding: 5vh 0px;
+	overflow: auto;
+}
+
+option {
+	background: $blue-D;
+	font-size: .8em;
+}
+
+#container {
+	width: 96vw;
+	max-width: 768px;
+	background: linear-gradient(to top, $blue-C, $blue-D);
+	margin: auto;
+	border-radius: 8px;
+	box-shadow: 0px 3vh 62px 10px rgba(0,0,0,.4);
+	overflow: hidden;
+}
+
+#box-panel {
+	@include media(xsmall){ padding: 12px };
+	background-color: white;
+	box-shadow: 0px 0px 12px 0px $blue-C inset, 0px -2px 12px 8px rgba(0, 0, 0, .3);
+	text-align: center;
+	padding: 12px 12%;
+	overflow: hidden;
+}
+
+#box-results {
+	padding: 4px 4px 12px;
+	color: $font-blue-A;
+	font-size: 1em;
+	h3 {
+		width: 80%;
+		min-height: 26px;
+		padding: 6px 6px 0px;
+		border-bottom: solid 1px $border-blue-A;
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
+	}
+	.output-box {
+		height: 20vh;
+		min-height: 100px;
+		overflow: auto;
+		padding: 6px 12px;
+		margin-top: 4px;
+		background-color: rgba(255,255,255,.2);
+	}
+}
+
+#box-console, select {
+	width: 96%;
+}
+
+%inputs{
+	@include media(xsmall) {
+		display: block;
+		width: 100%;
+		margin: 6px 0px
+	};
+	background-color: white;
+	border: solid 1px $border-blue-C;
+	margin: 6px 2%;
+	font-size: 1.2em;
+	color: $font-blue-B;
+	font-family: 'Quicksand', sans-serif;
+}
+
+input, select {
+	@extend %inputs;
+	padding: 4px;
+	text-align: center;
+	transition: border .15s ease-in-out, box-shadow .15s ease-out, color .15s .15s ease-out;
+	&:focus{
+		color: $font-blue-B;
+		border: solid 1px $border-blue-B;
+	}
+}
+
+input {
+	width: 46%;
+	float: left;
+	display: block;
+	&.valid {
+		color: $blue-B
+	}
+	
+	&.invalid {
+		color: #ef5350
+	}
+	
+	&[type="button"] {
+		color: $blue-B;
+		cursor: pointer;
+		&[disabled] {
+			color: $font-grey-A;
+			cursor: not-allowed;
+		}
+	}
+}
+
+#box-console {
+	@extend %inputs;
+	h3 {
+		color: white;
+		font-size: 1em;
+		text-align: right;
+		padding: 2px 4px;
+		background-color: $blue-B;
+		background: linear-gradient(to top, $blue-B, $border-blue-C);
+	}
+	div {
+		height: 0px;
+		transition: height .3s ease-in-out, padding .3s ease-in-out;
+		overflow: hidden;
+	}
+	p {
+		font-size: 1.1em;
+		line-height: 1.6em;
+		text-align: left;
+		padding: 0px 10px;
+	}
+}

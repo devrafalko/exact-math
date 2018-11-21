@@ -1,0 +1,39 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+	<title>exact-math</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="Shortcut icon" href="./favicon.png" />
+	<link rel="stylesheet" href="./dist/bundled.css"/>
+	<script src="./../dist/exact-math.js"></script>
+	<script src="./dist/bundled.js" defer></script>
+</head>
+<body>
+	<div id="box-body">
+		<div id="container">
+			<div id="box-panel">
+				<input type="text" placeholder="min" id="button-min"/>
+				<input type="text" placeholder="max" id="button-max"/>
+				<input type="text" placeholder="step" id="button-step"/>
+				<input type="text" placeholder="number" id="button-number"/>
+				<select id="select-sign">
+				</select>
+				<div id="box-console">
+					<h3>log</h3>
+					<div id="box-output"><p id="log-message"></p></div>
+				</div>
+				<input type="button" value="Start" id="button-run"/>
+				<input type="button" value="Reset" id="button-reset"/>
+			</div>
+			<div id="box-results">
+				<h3>JS arithmetic</h3>
+				<p id="js-results" class="output-box"></p>
+				<h3>exact-math arithmetic</h3>
+				<p id="lib-results" class="output-box"></p>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

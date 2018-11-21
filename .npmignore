@@ -1,3 +1,6 @@
-index.html
-samples
-scss
+.history
+.vscode
+node_modules
+.babelrc
+.eslintrc.json
+.gitignore
