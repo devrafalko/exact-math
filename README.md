@@ -72,7 +72,7 @@ The library is accessible as `exactMath` variable in the global *(window)* scope
 # Features 
 
 #### How it works:
-* check out the [calculation simulator](https://devrafalko.github.io/exact-math) that shows how the `exact-math` works compared with the JS regular arithmetic operations
+* check out the [calculation simulator](https://devrafalko.github.io/exact-math/simulator) that shows how the `exact-math` works compared with the JS regular arithmetic operations
 * the program computes all possible combinations of calculations between minimal and maximal value entered
 * put eg. `min: 1` `max: 5` `step: 0.1` `number: 2` `select: multiplication`
 
