@@ -31,10 +31,9 @@ class Div {
   _divDigits(dividend, divisor) {
     const getExponential = () => -(divisor.e - dividend.e);
     const getNegative = () => !((dividend.negative && divisor.negative) || (!dividend.negative && !divisor.negative));
-
     if (divisor.equalsTenths) {
       divisor.setExponential(1, 1);
-      dividend.e += getExponential();
+      dividend.e = getExponential();
       dividend.negative = getNegative();
       return dividend;
     }
