@@ -58,8 +58,12 @@ class Digit {
         this.after.shift();
         this.e--;
       }
-      this.before[0] = this.after.shift();
-      this.e--;
+      if (this.after.length) {
+        this.before[0] = this.after.shift();
+        this.e--;
+      } else {
+        this.before[0] = 0;
+      }
     }
   }
 

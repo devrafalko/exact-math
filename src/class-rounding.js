@@ -2,11 +2,12 @@ import Digit from './class-digit';
 import { fill } from './utils.js';
 
 class Rounding {
-  constructor({ digit, places }, action) {
+  constructor({ digit, places, trim }, action) {
     this.action = action;
     this.digit = digit;
     this.digit.removeE();
     this.places = places;
+    this.trim = trim;
 
     if (this.places === 0) return this.digit;
 
@@ -27,8 +28,15 @@ class Rounding {
       this._round(roundNumber);
       this._addZeros(zeros);
       this.digit.trimZeros();
+      this._fillZeros(places);
       return this.digit;
     }
+  }
+
+  _fillZeros(_places) {
+    const places = Math.abs(_places);
+    if (this.trim === true || _places >= 0 || this.digit.after.length >= places) return;
+    while (this.digit.after.length < places) this.digit.after.push(0);
   }
 
   _reduceRight() {

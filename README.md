@@ -18,6 +18,7 @@ f. [ePlus](#eplus)
 g. [maxDecimal](#maxdecimal)  
 h. [divideByZeroError](#dividebyzeroerror)  
 i. [invalidError](#invalidError)  
+j. [trim](#trim)  
 7. [callback parameter](#callback-parameter)
 8. [Return](#return)
 9. [Samples](#samples)
@@ -359,6 +360,23 @@ The **[String]** numerical values passed as the arguments and the **[String]** r
     * `callback`: the reference to the [Function] callback *(if defined, otherwise it is `undefined`)*
 * see the [\[samples\]](#the-config-invaliderror-property-usage)
 
+#### `trim`
+**Type:** [Boolean]  
+**Default:** `true`  
+* it applies to **round**, **ceil** and **floor** calculations
+* by default `true`, when the value is rounded to the decimals, and there are some **zero** decimals at the end of the value *(2.23000)*, they are **trimmed** *(2.23)*
+* in order to keep the **fixed** number of decimal integers, set the `trim` config property to `false`
+* **have in mind** to set the `returnString` config value to `true`, as the returned `[Number]` result value will have the last decimal zeros trimmed due to the default JavaScript behaviour
+* see the [\[samples\]](#the-config-trim-property-usage)
+
+
+|`places`|value| exactMath.round {trim: true}|exactMath.round {trim: false}|
+|:---:|:---:|:---:|:---:|
+|`-1`|`15.0006`|`15`|`15.0`|
+|`-2`|`15.0006`|`15`|`15.00`|
+|`-3`|`15.0006`|`15.001`|`15.001`|
+|`-4`|`15.0006`|`15.0006`|`15.0006`|
+
 # `callback` parameter
 #### `callback`
 **Type:** [Function] *optional*  
@@ -618,6 +636,21 @@ const config = {
 exactMath.formula('2 * (4/12', config);
 exactMath.div('6.66', '5..3', config);
 ```
+
+##### The config `trim` property usage
+```javascript
+const exactMath = require('exact-math');
+const config = {
+  returnString: true,
+  trim: false
+};
+
+exactMath.round(44, -3, config); //44.000
+exactMath.round(.00015, -3, config); //0.000
+exactMath.round(.22, -5, config); //0.22000
+exactMath.round(.222, -1, config); //0.2
+```
+
 
 ##### The `callback` property usage
 ```javascript

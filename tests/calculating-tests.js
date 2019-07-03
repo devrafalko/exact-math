@@ -3,6 +3,7 @@
 const joinArray = require('join-array');
 const calculations = require('./data/algebra-samples.json');
 const roundings = require('./data/rounding-samples.json');
+const trimRoundings = require('./data/trim-rounding-samples.json');
 const exponentiations = require('./data/exponentiations-samples.json');
 const formulas = require('./data/formula-samples.json');
 const invalidFormulas = require('./data/formula-invalid-samples.json');
@@ -21,6 +22,13 @@ describe('When the module is executed', function () {
     describe(`The result of ${actions[round.mode]} for ${joinArray(config(round.values))}`, function () {
       it(`should be equal to ${round.result}`, function () {
         expect(this.exactMath[round.mode](...round.values, true)).toBe(round.result);
+      });
+    });
+  }
+  for (let round of trimRoundings) {
+    describe(`The result of ${actions[round.mode]} for ${joinArray(config(round.values))}`, function () {
+      it(`should be equal to ${round.result}`, function () {
+        expect(this.exactMath[round.mode](...round.values, {returnString:true, trim: false})).toBe(round.result);
       });
     });
   }

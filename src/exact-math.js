@@ -127,7 +127,8 @@ class _ExactMath {
       ePlus: (val) => (this._data.callback || this._data.config.returnString) && type(val, Number) && val >= 0 && (isInteger(val) || val === Infinity),
       maxDecimal: (val) => (this._data.mode === 'div' || this._data.mode === 'formula') && type(val, Number) && val >= 0 && isInteger(val),
       divideByZeroError: (val) => (this._data.mode === 'div' || this._data.mode === 'formula') && type(val, /(Boolean|.*Error|Function)/),
-      invalidError: (val) => type(val, /(Boolean|.*Error|Function)/)
+      invalidError: (val) => type(val, /(Boolean|.*Error|Function)/),
+      trim: (val) => type(val, Boolean)
     };
   }
 
@@ -138,7 +139,8 @@ class _ExactMath {
       ePlus: 21,
       maxDecimal: 17,
       divideByZeroError: false,
-      invalidError: true
+      invalidError: true,
+      trim: true
     };
   }
 
@@ -429,9 +431,10 @@ class _ExactMath {
 
     const instanceData = {
       digit: this._data.digits[0],
-      places: this._data.values[1]
+      places: this._data.values[1],
+      trim: this._data.config.trim
     };
-
+    
     switch (this._data.mode) {
       case 'round':
         this._data.result = new Round(instanceData);

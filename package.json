@@ -52,8 +52,9 @@
     "test-err": "cross-env karma_spec_mode=full karma start"
   },
   "dependencies": {
-    "of-type": "^2.2.0",
-    "move-on": "^2.1.6"
+    "move-on": "^2.1.6",
+    "of-type": "^3.0.2",
+    "terser-webpack-plugin": "^1.3.0"
   },
   "devDependencies": {
     "@babel/cli": "^7.1.0",
