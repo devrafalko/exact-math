@@ -1,6 +1,6 @@
 {
   "name": "exact-math",
-  "version": "2.1.1",
+  "version": "2.1.2",
   "description": "The exact-math is a set of methods for addition, subtraction, multiplication, division, rounding, ceiling, flooring and powering calculations. It can be used with big number as it handles the floating point problem.",
   "main": "dist/exact-math.node.js",
   "keywords": [
