@@ -53,8 +53,7 @@
   },
   "dependencies": {
     "move-on": "^2.1.6",
-    "of-type": "^3.0.2",
-    "terser-webpack-plugin": "^1.3.0"
+    "of-type": "^3.0.2"
   },
   "devDependencies": {
     "@babel/cli": "^7.1.0",
