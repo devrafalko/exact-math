@@ -6,7 +6,6 @@ class Power {
     this.digit = digit;
     this.power = power;
     this.digitPower = new Digit(this.power);
-
     if (this.digitPower.equalsZero) return new Digit({
       before: [1],
       after: [],
@@ -25,6 +24,7 @@ class Power {
       this.digit.setExponential(1, 1);
       this.digit.e *= this.power;
       this.digit.removeE();
+      this._setTenthsNegative();
       return this.digit;
     }
 
@@ -32,7 +32,12 @@ class Power {
       digits: [this.digit],
       power: this.power
     });
+  }
 
+  _setTenthsNegative(){
+    const divByTwo = this.power / 2;
+    const isPowerEven = divByTwo === Math.round(divByTwo);
+    if(this.digit.negative && isPowerEven) this.digit.negative = false;
   }
 
 }
