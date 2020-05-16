@@ -100,6 +100,12 @@ beforeAll(function(){
     expect(this.exactMath.formula('5+((10-2) ⋅ 2)⋅.5', ...config)).toEqual(13);
   };
 
+  this.multiplySignAllowed = (config)=>{
+    expect(this.exactMath.formula('10 × 2', ...config)).toEqual(20);
+    expect(this.exactMath.formula('10(.5×.025)', ...config)).toEqual(0.125);
+    expect(this.exactMath.formula('5+((10-2) × 2)×.5', ...config)).toEqual(13);
+  };
+
   this.asteriskForbidden = (config)=>{
     expect(() => this.exactMath.formula('10 * 2', ...config)).toThrowError(this.incorrectFormula('*'));
     expect(() => this.exactMath.formula('10(.5*.025)', ...config)).toThrowError(this.incorrectFormula('*'));
@@ -116,6 +122,12 @@ beforeAll(function(){
     expect(() => this.exactMath.formula('10 ⋅ 2', ...config)).toThrowError(this.incorrectFormula('⋅'));
     expect(() => this.exactMath.formula('5+((10-2) ⋅ 2)⋅.5', ...config)).toThrowError(this.incorrectFormula('⋅'));
     expect(() => this.exactMath.formula('5+((10-2) ⋅ 2)⋅.5', ...config)).toThrowError(this.incorrectFormula('⋅'));
+  };
+
+  this.multiplySignForbidden = (config)=>{
+    expect(() => this.exactMath.formula('10 × 2', ...config)).toThrowError(this.incorrectFormula('×'));
+    expect(() => this.exactMath.formula('10(.5×.025)', ...config)).toThrowError(this.incorrectFormula('×'));
+    expect(() => this.exactMath.formula('5+((10-2) × 2)×.5', ...config)).toThrowError(this.incorrectFormula('×'));
   };
   
 });

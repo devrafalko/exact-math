@@ -148,7 +148,7 @@ class _ExactMath {
     return {
       decimalChar: new Map([['.', true], [',', true]]),
       divChar: new Map([['/', true], [':', true], ['÷', true]]),
-      mulChar: new Map([['*', true], ['x', true], ['⋅', true]])
+      mulChar: new Map([['*', true], ['x', true], ['⋅', true], ['×', true]])
     };
   }
 
