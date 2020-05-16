@@ -139,7 +139,7 @@ let result = exactMath.add('3.00000000000000000015', '12.00000000000000020020', 
   * `1.5`, `0.5` or `.5` decimal fractions
   * `-5`, `-.4`, `-5.55` negative values
   * `2e-2`, `.25e+12`, `-3e-10` exponential notation values
-  * `*` multiplication sign *(also `x` and `⋅` [see [config.mulChar](#mulchar)])*
+  * `*` multiplication sign *(also `x`, `×` and `⋅` [see [config.mulChar](#mulchar)])*
   * `/` division sign *(also `:` and `÷` [see [config.divChar](#divchar)])*
   * `+` plus sign
   * `-` subtraction sign
@@ -281,14 +281,14 @@ The **[String]** numerical values passed as the arguments and the **[String]** r
 
 #### `mulChar`
 **Type:** [String|Array:string]  
-**Default:** `['*', 'x', '⋅']`
+**Default:** `['*', 'x', '×', '⋅']`
 * it applies only for [String] **formulas** in the [`formula`](#formula) method
 * in javaScript, the multiplication operation requires the `*` character, while out-of-coding notations sometimes also allows `x` or `⋅` dot operator *(unicode: `'\u22C5'`)* character
 * this setting lets to choose which characters are allowed for [`formula`](#formula) multiplication operations *(the characters other than `*`, `x` and `⋅` will be ignored)*. The default value will be used, if the illegal value has been passed
-* the legal `mulChar` settings samples: `'*'`, `'x'`, `'⋅'`, `['*', 'x', '⋅']`, `['*']`, `['x']`, `['*', '⋅']` etc.
-* by **default**, the [String] formula may contain `*`, `x` and `⋅` for multiplication operations, eg: `'5 * 4'`, `4x2`, `'4.5 * (3x.2)*3'`, `'3 ⋅ 3 \ 2'`
-* in order to allow **only** `*` character (and thereby forbid `x` and `⋅` character), set `mulChar` property to [String] `*` or [Array] `['*']`
-* it may turn out handy especially for the end-users that will fill the inputs with some multiplication math formulas, that will be further passed through the `exact-math`.`formula` method to calculate some result. The `x` or `⋅` usage would not throw an error then
+* the legal `mulChar` settings samples: `'*'`, `'x'`, `'×'`, `'⋅'`, `['*', 'x', '×', '⋅']`, `['*']`, `['x']`, `['*', '⋅']` etc.
+* by **default**, the [String] formula may contain `*`, `x`, `×` and `⋅` for multiplication operations, eg: `'5 * 4'`, `4x2`, `3×6`, `'4.5 * (3x.2)*3'`, `'3 ⋅ 3 \ 2'`
+* in order to allow **only** `*` character (and thereby forbid `x`, `×` and `⋅` character), set `mulChar` property to [String] `*` or [Array] `['*']`
+* it may turn out handy especially for the end-users that will fill the inputs with some multiplication math formulas, that will be further passed through the `exact-math`.`formula` method to calculate some result. The `x`, `×` or `⋅` usage would not throw an error then
 * see the [\[samples\]](#the-config-mulchar-property-usage)
 
 #### `eMinus`
@@ -504,9 +504,9 @@ exactMath.formula('10÷2', { divChar: ['÷'] }); //5
 ##### The config `mulChar` property usage
 ```javascript
 const exactMath = require('exact-math');
-exactMath.formula('5*5 + 5x5 + 5⋅5'); //75
-exactMath.formula('5*5 + 5x5 + 5⋅5', { mulChar: ['*', 'x', '⋅'] }); //75
-exactMath.formula('5*5 + 5x5 + 5⋅5', { mulChar: ['x'] }); //[Error]: The [String] formula contains illegal character *
+exactMath.formula('5*5 + 5x5 + 5⋅5 + 5×5'); //100
+exactMath.formula('5*5 + 5x5 + 5⋅5 + 5×5', { mulChar: ['*', 'x', '⋅', '×'] }); //100
+exactMath.formula('5*5 + 5x5 + 5⋅5 + 5×5', { mulChar: ['x'] }); //[Error]: The [String] formula contains illegal character *
 exactMath.formula('5*5', { mulChar: '*' }); //25
 exactMath.formula('5*5 + 5⋅5', { mulChar: ['*', '⋅'] }); //50
 ```
