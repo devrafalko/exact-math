@@ -283,8 +283,8 @@ The **[String]** numerical values passed as the arguments and the **[String]** r
 **Type:** [String|Array:string]  
 **Default:** `['*', 'x', '×', '⋅']`
 * it applies only for [String] **formulas** in the [`formula`](#formula) method
-* in javaScript, the multiplication operation requires the `*` character, while out-of-coding notations sometimes also allows `x` or `⋅` dot operator *(unicode: `'\u22C5'`)* character
-* this setting lets to choose which characters are allowed for [`formula`](#formula) multiplication operations *(the characters other than `*`, `x` and `⋅` will be ignored)*. The default value will be used, if the illegal value has been passed
+* in javaScript, the multiplication operation requires the `*` character, while out-of-coding notations sometimes also allows `x` letter, `⋅` dot operator *(unicode: `'\u22C5'`)* or `×` multiplication sign *(unicode: `'\u00D7'`)* characters
+* this setting lets to choose which characters are allowed for [`formula`](#formula) multiplication operations *(the characters other than `*`, `x`, `×` and `⋅` will be ignored)*. The default value will be used, if the illegal value has been passed
 * the legal `mulChar` settings samples: `'*'`, `'x'`, `'×'`, `'⋅'`, `['*', 'x', '×', '⋅']`, `['*']`, `['x']`, `['*', '⋅']` etc.
 * by **default**, the [String] formula may contain `*`, `x`, `×` and `⋅` for multiplication operations, eg: `'5 * 4'`, `4x2`, `3×6`, `'4.5 * (3x.2)*3'`, `'3 ⋅ 3 \ 2'`
 * in order to allow **only** `*` character (and thereby forbid `x`, `×` and `⋅` character), set `mulChar` property to [String] `*` or [Array] `['*']`

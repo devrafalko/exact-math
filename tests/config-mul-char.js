@@ -260,21 +260,6 @@ describe('When the module is executed with formula method', function () {
           this.multiplySignAllowed([config]);
         });
       });
-      describe("that contains '*', 'x' and '⋅' characters", function () {
-        const config = { mulChar: ['*', 'x', '⋅'] };
-        it("the '*' character should be allowed in formula", function () {
-          this.asteriskAllowed([config]);
-        });
-        it("the '⋅' character should be allowed in formula", function () {
-          this.dotAllowed([config]);
-        });
-        it("the 'x' character should be allowed in formula", function () {
-          this.xAllowed([config]);
-        });
-        it("the '×' character should not be allowed in formula", function () {
-          this.multiplySignForbidden([config]);
-        });
-      });
       describe("that contains '*', 'x', '×' and '⋅' characters", function () {
         const config = { mulChar: ['*', 'x', '×', '⋅'] };
         it("the '*' character should be allowed in formula", function () {
@@ -290,7 +275,6 @@ describe('When the module is executed with formula method', function () {
           this.multiplySignAllowed([config]);
         });
       });
-
       describe("that contains '*', 'x' and '⋅' characters", function () {
         const config = { mulChar: ['*', 'x', '⋅'] };
         it("the '*' character should be allowed in formula", function () {
@@ -351,7 +335,6 @@ describe('When the module is executed with formula method', function () {
           this.dotForbidden([config]);
         });
       });
-
       describe("that contains '*' and 'x' characters", function () {
         const config = { mulChar: ['*', 'x'] };
         it("the '*' character should be allowed in formula", function () {
@@ -442,9 +425,6 @@ describe('When the module is executed with formula method', function () {
           this.dotForbidden([config]);
         });
       });
-
-
-
     });
   });
 });
