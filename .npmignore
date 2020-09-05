@@ -1,6 +1,12 @@
+simulator
+src
+tests
+node_modules
 .history
 .vscode
-node_modules
+.git
 .babelrc
 .eslintrc.json
 .gitignore
+karma.conf.js
+webpack.config.js
