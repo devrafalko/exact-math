@@ -1,5 +1,5 @@
 const path = require('path');
-const merge = require('webpack-merge');
+const merge = require('webpack-merge').merge;
 const webpackProd = require('./webpack.config.js')({prod:true})[1];
 const specMode = process.env.karma_spec_mode;
 

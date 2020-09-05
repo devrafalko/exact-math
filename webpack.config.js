@@ -1,5 +1,5 @@
 const path = require('path');
-const merge = require('webpack-merge');
+const merge = require('webpack-merge').merge;
 const nodeExternals = require('webpack-node-externals');
 const StylesLoader = require('styles-loader');
 const TerserPlugin = require('terser-webpack-plugin');
@@ -24,7 +24,7 @@ const common = {
   }
 };
 
-const backEnd = {
+const backend = {
   entry: {
     index:'./src/exact-math.js'
   },
@@ -40,7 +40,7 @@ const backEnd = {
   externals: [nodeExternals()]
 };
 
-const frontEnd = {
+const frontend = {
   entry: {
     index: './src/exact-math.js'
   },
@@ -109,8 +109,8 @@ const prod = {
 module.exports = (env) => {
   const mode = env.prod ? prod : dev;
   return [
-    merge(common, mode, backEnd),
-    merge(common, mode, frontEnd),
+    merge(common, mode, backend),
+    merge(common, mode, frontend),
     merge(common, mode, simulator)
   ];
 };
