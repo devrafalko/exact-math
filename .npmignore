@@ -1,5 +1,4 @@
 simulator
-dist/exact-math.js
 src
 tests
 node_modules
